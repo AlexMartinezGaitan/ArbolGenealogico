@@ -7,6 +7,7 @@ package com.mycompany.arbolgenealogico;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -16,7 +17,8 @@ public class Inicio {
     
     private  Map <Integer, Persona> mapaAbuelos;
     
-    public  void IngresarPersona (){
+    public  String  IngresarPersona (){
+        String resul = null;
         mapaAbuelos = new HashMap<>();
         Persona pJuan = new Persona(1,"Juan");
         
@@ -55,29 +57,48 @@ public class Inicio {
         
        
         
-        int identificacion =1;
+        int identificacion =3;
 
        for (Integer key : mapaAbuelos.keySet()){
            Persona pAbuelo = mapaAbuelos.get(key);
            if(key == identificacion){
            
-             System.out.println("     "+ pAbuelo.getNombre());
-             System.out.println("hjo" + pAbuelo.getMapaPersona().get(key).getNombre());
+             System.out.println("Persona "+ pAbuelo.getNombre());
+             resul=pAbuelo.getNombre();
+               for( Integer a : pAbuelo.getMapaPersona().keySet()){
+             System.out.println("Hijo " + pAbuelo.getMapaPersona().get(a).getNombre());
+             resul=resul+","+pAbuelo.getMapaPersona().get(a).getNombre();
+                for(Integer b : pAbuelo.getMapaPersona().get(a).getMapaPersona().keySet()){
+                    System.out.println("Nieto " + pAbuelo.getMapaPersona().get(a).getMapaPersona().get(b).getNombre());
+                    resul=resul+","+pAbuelo.getMapaPersona().get(a).getMapaPersona().get(b).getNombre();
+                     
+                }
+               
+               }
+                System.out.println(resul);
            }else{
                for(Integer key2 : pAbuelo.getMapaPersona().keySet()){
                    
                    Persona pPadre = pAbuelo.getMapaPersona().get(key2);
                    if(key2 == identificacion){
-                       System.out.println("     "+ pAbuelo.getNombre());
-                       System.out.println("         "+pPadre.getNombre());
+                       System.out.println("Padre "+ pAbuelo.getNombre());
+                       System.out.println("Persona "+pPadre.getNombre());
+                       resul=pAbuelo.getNombre()+","+pPadre.getNombre();
+                       for(Integer c: pPadre.getMapaPersona().keySet()){
+                       System.out.println("Hijo " + pPadre.getMapaPersona().get(c).getNombre());
+                       resul=resul+","+pPadre.getMapaPersona().get(c).getNombre();
+                       }
+                       System.out.println(resul);
                    }else {
                        for(Integer key3 : pPadre.getMapaPersona().keySet()){
                                                    
                            Persona pHijo = pPadre.getMapaPersona().get(key3);
                        if(key3 == identificacion){
-                           System.out.println("     "+ pAbuelo.getNombre());
-                           System.out.println("         "+pPadre.getNombre());
-                           System.out.println("             "+ pHijo.getNombre());
+                           System.out.println("Abuelo "+ pAbuelo.getNombre());
+                           System.out.println("Padre "+pPadre.getNombre());
+                           System.out.println("Persona "+ pHijo.getNombre());
+                           resul= (pAbuelo.getNombre()+","+ pPadre.getNombre()+","+ pHijo.getNombre());
+                           System.out.println(resul);
                         }
                     }
                 }
@@ -88,7 +109,7 @@ public class Inicio {
       
       
     
-    
+    return resul;
     
     
     }
